@@ -13,13 +13,17 @@ $(document).ready(function(){
 		game.setRandomNumber();
 		/** create new game object and generate new random number */
 		$('.new').click(function() {
-			$('div#feedback').innerHTML = 'Make Your Guess!';
+			$('#feedback').html('Make Your Guess!');
 			game = newGame();
 			game.setRandomNumber();
 		});
-		$('#guessButton').submit(function() {
+		$('form').submit(function(e) {
 			var guess = $('#userGuess').val();
 			game.setGuessCount();
+			$('#count').html(game.getGuessCount());
+
+
+			e.preventDefault();
 		});
 });
 /**
