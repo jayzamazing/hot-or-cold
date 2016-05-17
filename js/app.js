@@ -1,5 +1,5 @@
 $(document).ready(function(){
-	var game;
+	var currentGame;
 	/*--- Display information modal box ---*/
   	$(".what").click(function(){
     	$(".overlay").fadeIn(1000);
@@ -8,28 +8,51 @@ $(document).ready(function(){
   	$("a.close").click(function(){
   		$(".overlay").fadeOut(1000);
   	});
-		/** start game and retain state*/
-		game = newGame();
-		game.setRandomNumber();
+		/** start game */
+		currentGame = newGame();
 		/** create new game object and generate new random number */
 		$('.new').click(function() {
-			$('#feedback').html('Make Your Guess!');
-			game = newGame();
-			game.setRandomNumber();
+			currentGame = newGame();
 		});
 		$('form').submit(function(e) {
 			var guess = $('#userGuess').val();
-			game.setGuessCount();
-			$('#count').html(game.getGuessCount());
-
-
+			testUserInput(guess);
+			guessList(guess);
 			e.preventDefault();
 		});
 });
 /**
-* function to start a new game
+* This takes the guess from the user and adds it so they can see previous guesses
+*/
+function guessList(guess) {
+	$('#guessList').append('<li>' + guess + '</li>');
+}
+/**
+*	tests the user input is between 1 and 100, and then calls setguess count
+* to tell the user if they are hot or cold, and then sets the count number
+*/
+function testUserInput(guess) {
+	if (guess <= 100 && guess >= 1) {
+		currentGame.setGuessCount();
+		$('#count').html(currentGame.getGuessCount());
+		$('#feedback').html(hotOrCold(currentGame.getRandomNumber(), guess));
+	}
+}
+/**
+* Sets the initial game state
 */
 function newGame() {
+	$('#userGuess').val('');
+	$('#feedback').html('Make your Guess!');
+	$('#count').html('0');
+	currentGame = new game();
+	currentGame.setRandomNumber();
+	return currentGame;
+}
+/**
+* function to start a new game
+*/
+function game() {
 	var randomNumber = 0;
 	var guessCount = 0;
 	var gameState = {};
@@ -61,26 +84,23 @@ function newGame() {
 		return guessCount;
 	};
 	return gameState;
-}
-
-/**
-* function to determine how close the users guess is to the random number
-* return string
-*/
-newGame.prototype.hotOrCold = function(randomNumber, guess) {
-	var diff = Math.abs(randomNumber - guess);
-	switch (diff) {
-		case 50 <= diff:
-			return "Ice Cold";
-		case 30 <= diff < 50:
-			return "Cold";
-		case 20 <= diff < 50:
-			return 'Warm';
-		case 10 <= diff < 20:
-			return 'Hot';
-		case 1 <= diff < 10:
-			return "Very Hot";
-		case 0 === diff:
-			return "Congradulations";
 	}
-};
+	/**
+	* function to determine how close the users guess is to the random number
+	* return string
+	*/
+	function hotOrCold (randomNumber, guess) {
+			var diff = Math.abs(randomNumber - guess);
+			if (50 <= diff)
+				return "Ice Cold";
+			else if (30 <= diff && diff < 50)
+				return "Cold";
+			else if (20 <= diff && diff < 50)
+				return 'Warm';
+			else if	(10 <= diff && diff < 20)
+				return 'Hot';
+			else if (1 <= diff && diff < 10)
+				return "Very Hot";
+			else
+					return "congratulations";
+		}
