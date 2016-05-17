@@ -17,7 +17,6 @@ $(document).ready(function(){
 		$('form').submit(function(e) {
 			var guess = $('#userGuess').val();
 			testUserInput(guess);
-			guessList(guess);
 			e.preventDefault();
 		});
 });
@@ -36,6 +35,7 @@ function testUserInput(guess) {
 		currentGame.setGuessCount();
 		$('#count').html(currentGame.getGuessCount());
 		$('#feedback').html(hotOrCold(currentGame.getRandomNumber(), guess));
+		guessList(guess);
 	}
 }
 /**
