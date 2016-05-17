@@ -1,2 +1,2 @@
-# hot-or-cold-starter
-This project is basically a game that generates a random number and the user has to guess what that number is. Depending on what the user enters, feedback will be provided such as hot or cold depending on how close they are to the random number. The user can restart the game at any point. This project uses Html, Css, jQuery, and Javascript. You can see it at work in https://jayzamazing.github.io/hot-or-cold-starter.
+# hot-or-cold
+This project is basically a game that generates a random number and the user has to guess what that number is. Depending on what the user enters, feedback will be provided such as hot or cold depending on how close they are to the random number. The user can restart the game at any point. This project uses Html, Css, jQuery, and Javascript. You can see it at work in https://jayzamazing.github.io/hot-or-cold.
